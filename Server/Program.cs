@@ -1,3 +1,3 @@
 ﻿Server.Server server = new Server.Server();
 
-_ = server.RunAsync();
+await server.RunAsync();

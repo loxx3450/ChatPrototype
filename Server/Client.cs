@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using ProtocolLibrary;
+using ProtocolLibrary.Core;
 
 namespace Server
 {
@@ -20,7 +22,21 @@ namespace Server
         {
             try
             {
-               
+                ProtocolMessageBuilder builder = new ProtocolMessageBuilder(TcpClient.GetStream());
+                
+                while (true)
+                {
+                    ProtocolMessage message = builder.GetMessage();
+
+                    foreach(var item in message.Headers) 
+                    { 
+                        Console.WriteLine(item.Key + ':' + item.Value);
+                    }
+
+                    //Handle
+
+                    //Send Response
+                }
             }
             catch (Exception ex)
             {
