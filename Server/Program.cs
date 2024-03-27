@@ -1,3 +1,3 @@
-﻿//Server.Server server = new Server.Server();
+﻿Server.Server server = new Server.Server();
 
-//_ = server.RunAsync();
+_ = server.RunAsync();
