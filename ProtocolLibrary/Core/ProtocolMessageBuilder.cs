@@ -20,15 +20,17 @@ namespace ProtocolLibrary.Core
         {
             MemoryStream memStream = GetMessageStream();
 
+            //Filling protocolMessage with data based on stream
             ProtocolMessage protocolMessage = StreamExtractor.ExtractAll(memStream);
 
-            memStream.Dispose();
+            memStream.Close();
 
             return protocolMessage;
         }
 
         private MemoryStream GetMessageStream()
         {
+            //Finding out the size of data that belongs to message
             int bytesToRead = ConvertToInt(ReadBytes(4));
 
             MemoryStream memStream = new MemoryStream(bytesToRead);
@@ -48,7 +50,7 @@ namespace ProtocolLibrary.Core
             return bytes;
         }
 
-        private int ConvertToInt(byte[] bytes)
+        private static int ConvertToInt(byte[] bytes)
         {
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(bytes);

@@ -14,4 +14,9 @@ message.MessageType = ProtocolMessageType.AuthRequest;
 message.SetHeader("testHeader", "testValue");
 
 message.SetPayload(new AuthRequestPayload("vasia", "123123123"));
-message.GetStream().CopyTo(netStrteam);
+
+while(true)
+{
+    Thread.Sleep(2000);
+    message.GetStream().CopyTo(netStrteam);
+}

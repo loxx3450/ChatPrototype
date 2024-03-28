@@ -1,4 +1,5 @@
-﻿using ProtocolLibrary.PayloadTypes;
+﻿using ProtocolLibrary.Core;
+using ProtocolLibrary.PayloadTypes;
 
 namespace ProtocolLibrary
 {
@@ -65,53 +66,7 @@ namespace ProtocolLibrary
 
         public MemoryStream GetStream()
         {
-            MemoryStream memStream = new MemoryStream();
-            memStream.Write(new byte[4], 0, 4);
-
-            StreamWriter writer = new StreamWriter(memStream);
-
-            writer.WriteLine(GetMessageType());
-            foreach (var header in Headers)
-                writer.WriteLine($"{header.Key}:{header.Value}");
-            writer.WriteLine();
-            writer.Flush();
-
-            if (Payload is not null && PayloadStream is not null)
-            {
-                PayloadStream.Position = 0;
-                PayloadStream.CopyTo(memStream);
-
-                PayloadStream.Position = 0;
-            }
-
-            memStream.Position = 0;
-
-            byte[] messageSize = ConvertIntToBytes((int)memStream.Length - 4);
-
-            memStream.Write(messageSize, 0, 4);
-
-            memStream.Position = 0;
-
-            return memStream;
-        }
-
-        private string GetMessageType()
-        {
-            return MessageType switch
-            {
-                ProtocolMessageType.AuthRequest => "AuthRequest",
-                ProtocolMessageType.AuthResponse => "AuthResponse",
-                ProtocolMessageType.None => "None"
-            };
-        }
-
-        private byte[] ConvertIntToBytes(int val)
-        {
-            byte[] bytes = BitConverter.GetBytes(val);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(bytes);
-
-            return bytes;
+            return ProtocolMessageStreamBuilder.GetStream(this);
         }
     }
 }
