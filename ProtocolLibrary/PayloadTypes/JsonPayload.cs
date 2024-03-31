@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace ProtocolLibrary.PayloadTypes
 {
-    public abstract class JsonPayload : IPayload
+    public class JsonPayload : IPayload
     {
         public string GetPayloadType()
         {
             return "json";
         }
 
-        public MemoryStream GetStream()
+        public MemoryStream GetStream()         //TODO: capacity
         {
-            MemoryStream memStream = new MemoryStream();
-
             byte[] bytes = Encoding.UTF8.GetBytes(GetJson());
+
+            MemoryStream memStream = new MemoryStream(bytes.Length);
 
             memStream.Write(bytes, 0, bytes.Length);
 
@@ -27,7 +27,7 @@ namespace ProtocolLibrary.PayloadTypes
 
         public string GetJson()
         {
-            return JsonSerializer.Serialize(this);
+            return JsonSerializer.Serialize(this, this.GetType());
         }
     }
 }

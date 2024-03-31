@@ -17,7 +17,7 @@ namespace ProtocolLibrary.Core
             memStream.Write(new byte[4], 0, 4);
 
             //Writing all parts of message
-            using (StreamWriter writer = new StreamWriter(memStream))
+            using (StreamWriter writer = new StreamWriter(memStream, leaveOpen:true))
                 WriteMainInfo(message, writer);
 
             WritePayloadIfExists(message, memStream);
@@ -48,7 +48,7 @@ namespace ProtocolLibrary.Core
             writer.Flush();
         }
 
-        private static void WritePayloadIfExists(ProtocolMessage message, MemoryStream stream) 
+        private static void WritePayloadIfExists(ProtocolMessage message, MemoryStream stream)
         {
             if (message.PayloadStream is null)
                 return;

@@ -15,7 +15,7 @@ message.SetHeader("testHeader", "testValue");
 
 message.SetPayload(new AuthRequestPayload("vasia", "123123123"));
 
-while(true)
+while (true)
 {
     Thread.Sleep(2000);
     message.GetStream().CopyTo(netStrteam);
