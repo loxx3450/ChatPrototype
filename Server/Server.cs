@@ -44,6 +44,7 @@ namespace Server
                 ProtocolMessage message = (ProtocolMessage)arg;
 
                 //TEST CODE
+                #region printMessage
                 Console.WriteLine(message.MessageType.ToString());
 
                 Console.WriteLine("Headers:");
@@ -61,6 +62,18 @@ namespace Server
                     Console.WriteLine(p.Login);
                     Console.WriteLine(p.Password);
                 }
+                #endregion
+
+                //Creating response
+                ProtocolMessage response = new ProtocolMessage();
+                response.MessageType = ProtocolMessageType.InfoFromServer;
+                response.SetHeader("testHeader", "testValue");
+                response.SetPayload(new InfoFromServerPayload("I got your data!"));
+
+                SocketEventProtocolMessage responseToClient = new SocketEventProtocolMessage("ResponseToClient", response);
+
+                //Sending response
+                socket.Emit(responseToClient);
             });
 
             //3. Setting callbacks to events

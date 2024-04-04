@@ -34,9 +34,6 @@ namespace ProtocolLibrary.Core
                 case "AuthRequest":
                     message.MessageType = ProtocolMessageType.AuthRequest;
                     break;
-                case "AuthResponse":
-                    message.MessageType = ProtocolMessageType.AuthResponse;
-                    break;
                 default:
                     message.MessageType = ProtocolMessageType.None;
                     break;

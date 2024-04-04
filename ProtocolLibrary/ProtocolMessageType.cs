@@ -9,7 +9,7 @@ namespace ProtocolLibrary
     public enum ProtocolMessageType
     {
         AuthRequest,
-        AuthResponse,
+        InfoFromServer,
         None,
     }
 }
