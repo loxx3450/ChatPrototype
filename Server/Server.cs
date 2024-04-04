@@ -1,59 +1,73 @@
-﻿using System;
+﻿using EventSocket.Sockets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using ProtocolLibrary.SocketEventMessages;
+using ProtocolLibrary.PayloadTypes;
+using ProtocolLibrary;
+using System.Text.Json;
 
 namespace Server
 {
     public class Server
     {
-        public string Host { get; set; }
-        public int Port { get; set; }   
-
-        private TcpListener listener = null!;
+        public ServerSocketEvent SocketEvent { get; set; }
 
         public List<Client> Clients { get; set; }
 
         public Server(string host = "127.0.0.1", int port = 8080)
         {
-            Host = host;
-            Port = port;
-
-            listener = new TcpListener(IPAddress.Parse(host), port);
+            SocketEvent = new ServerSocketEvent(host, port);
 
             Clients = new List<Client>();
         }
 
-        public async Task RunAsync()
+        public void Start()
         {
-            try
-            {
-                listener.Start();
-                Console.WriteLine($"Server started at {Host}:{Port}");
+            SocketEvent.OnClientIsConnected += SetupSocket;
 
-                while (true) 
-                { 
-                    TcpClient tcpClient = await listener.AcceptTcpClientAsync();
-
-                    Client client = new Client(tcpClient);
-
-                    Clients.Add(client);
-
-                    _ = Task.Run(() => client.RunProcessing());
-                }
-            }
-            catch (Exception ex) 
-            { 
-                Console.WriteLine($"ERROR: {ex.Message}");
-            }
+            SocketEvent.StartAcceptingClients();
         }
 
-        ~Server()
+        private void SetupSocket(SocketEvent socket)
         {
-            listener.Stop();
+            //1. Setting supported SocketMessage's Types for income
+            socket.AddSupportedMessageType<SocketEventProtocolMessage>();
+
+            //2. Setting callbacks
+            socket.On("MessageToServer", (arg) =>
+            {
+                ProtocolMessage message = (ProtocolMessage)arg;
+
+                //TEST CODE
+                Console.WriteLine(message.MessageType.ToString());
+
+                Console.WriteLine("Headers:");
+                foreach (var item in message.Headers)
+                {
+                    Console.WriteLine(item.Key + ':' + item.Value);
+                }
+                Console.WriteLine();
+
+                using (StreamReader reader = new StreamReader(message.PayloadStream, leaveOpen: true))
+                {
+                    string json = reader.ReadToEnd(); // Read JSON from the stream
+                    AuthRequestPayload? p = JsonSerializer.Deserialize<AuthRequestPayload>(json);
+
+                    Console.WriteLine(p.Login);
+                    Console.WriteLine(p.Password);
+                }
+            });
+
+            //3. Setting callbacks to events
+            //....
+
+            //Adding SocketEvent to the collection of Clients(Network Streams) that are representing server side
+            Clients.Add(new Client(socket));
         }
     }
 }

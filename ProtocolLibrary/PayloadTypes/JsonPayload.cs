@@ -14,7 +14,7 @@ namespace ProtocolLibrary.PayloadTypes
             return "json";
         }
 
-        public MemoryStream GetStream()         //TODO: capacity
+        public MemoryStream GetStream()
         {
             byte[] bytes = Encoding.UTF8.GetBytes(GetJson());
 

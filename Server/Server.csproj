@@ -11,4 +11,10 @@
     <ProjectReference Include="..\ProtocolLibrary\ProtocolLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="EventSocket">
+      <HintPath>..\..\EventSocket\EventSocket\bin\Debug\net8.0\EventSocket.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

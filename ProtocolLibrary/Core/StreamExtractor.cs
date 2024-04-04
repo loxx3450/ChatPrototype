@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProtocolLibrary.Core
 {
-    internal static class StreamExtractor
+    public static class StreamExtractor
     {
         public static ProtocolMessage ExtractAll(MemoryStream memStream)
         {
