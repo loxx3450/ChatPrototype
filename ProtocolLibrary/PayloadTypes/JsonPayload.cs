@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProtocolLibrary.PayloadTypes
 {
-    public class JsonPayload : IPayload
+    public abstract class JsonPayload : IPayload
     {
         public string GetPayloadType()
         {
@@ -28,6 +28,16 @@ namespace ProtocolLibrary.PayloadTypes
         public string GetJson()
         {
             return JsonSerializer.Serialize(this, this.GetType());
+        }
+
+        public static object GetPayload(MemoryStream memoryStream, Type returnType)
+        {
+            using StreamReader streamReader = new StreamReader(memoryStream, leaveOpen:true);
+            string payload = streamReader.ReadToEnd();
+
+            memoryStream.Position = 0;
+
+            return JsonSerializer.Deserialize(payload, returnType) ?? throw new Exception();
         }
     }
 }

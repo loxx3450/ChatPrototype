@@ -11,6 +11,7 @@ namespace ProtocolLibrary.PayloadTypes
     {
         public string Login { get; set; }
         public string Password { get; set; }
+
         public AuthRequestPayload(string login, string password)
         {
             Login = login;

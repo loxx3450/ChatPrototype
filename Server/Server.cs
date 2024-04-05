@@ -10,6 +10,7 @@ using ProtocolLibrary.SocketEventMessages;
 using ProtocolLibrary.PayloadTypes;
 using ProtocolLibrary;
 using System.Text.Json;
+using ProtocolLibrary.Services;
 
 namespace Server
 {
@@ -39,41 +40,13 @@ namespace Server
             socket.AddSupportedMessageType<SocketEventProtocolMessage>();
 
             //2. Setting callbacks
-            socket.On("MessageToServer", (arg) =>
+            socket.On("AuthRequest", mes =>
             {
-                ProtocolMessage message = (ProtocolMessage)arg;
+                ProtocolMessage message = (ProtocolMessage)mes;
 
-                //TEST CODE
-                #region printMessage
-                Console.WriteLine(message.MessageType.ToString());
+                AuthorizationService authService = new AuthorizationService();
 
-                Console.WriteLine("Headers:");
-                foreach (var item in message.Headers)
-                {
-                    Console.WriteLine(item.Key + ':' + item.Value);
-                }
-                Console.WriteLine();
-
-                using (StreamReader reader = new StreamReader(message.PayloadStream, leaveOpen: true))
-                {
-                    string json = reader.ReadToEnd(); // Read JSON from the stream
-                    AuthRequestPayload? p = JsonSerializer.Deserialize<AuthRequestPayload>(json);
-
-                    Console.WriteLine(p.Login);
-                    Console.WriteLine(p.Password);
-                }
-                #endregion
-
-                //Creating response
-                ProtocolMessage response = new ProtocolMessage();
-                response.MessageType = ProtocolMessageType.InfoFromServer;
-                response.SetHeader("testHeader", "testValue");
-                response.SetPayload(new InfoFromServerPayload("I got your data!"));
-
-                SocketEventProtocolMessage responseToClient = new SocketEventProtocolMessage("ResponseToClient", response);
-
-                //Sending response
-                socket.Emit(responseToClient);
+                authService.Handle(message);
             });
 
             //3. Setting callbacks to events

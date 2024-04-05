@@ -24,7 +24,7 @@ message.SetHeader("testHeader", "testValue");
 
 message.SetPayload(new AuthRequestPayload("vasia", "123123123"));
 
-SocketEventProtocolMessage messageToServer = new SocketEventProtocolMessage("MessageToServer", message);
+SocketEventProtocolMessage messageToServer = new SocketEventProtocolMessage("AuthRequest", message);
 
 
 while (true)
@@ -39,28 +39,5 @@ void SetupSocket(SocketEvent socket)
     socket.AddSupportedMessageType<SocketEventProtocolMessage>();
 
     //2. Setting callbacks
-    socket.On("ResponseToClient", resp =>
-    {
-        ProtocolMessage message = (ProtocolMessage)resp;
-
-        //TEST CODE
-        #region printMessage
-        Console.WriteLine(message.MessageType.ToString());
-
-        Console.WriteLine("Headers:");
-        foreach (var item in message.Headers)
-        {
-            Console.WriteLine(item.Key + ':' + item.Value);
-        }
-        Console.WriteLine();
-
-        using (StreamReader reader = new StreamReader(message.PayloadStream, leaveOpen: true))
-        {
-            string json = reader.ReadToEnd(); // Read JSON from the stream
-            InfoFromServerPayload? p = JsonSerializer.Deserialize<InfoFromServerPayload>(json);
-
-            Console.WriteLine(p.Message);
-        }
-        #endregion
-    });
+    //...
 }

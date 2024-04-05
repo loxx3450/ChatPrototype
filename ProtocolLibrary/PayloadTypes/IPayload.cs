@@ -10,5 +10,6 @@ namespace ProtocolLibrary.PayloadTypes
     {
         public MemoryStream GetStream();
         public string GetPayloadType();
+        public static abstract object GetPayload(MemoryStream memoryStream, Type returnType);
     }
 }

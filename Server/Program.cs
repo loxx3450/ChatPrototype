@@ -2,8 +2,8 @@
 
 server.Start();
 
-//TEMP
-while (true)
+while(true)
 {
-
+    if (Console.ReadLine() == "stop")
+        server.SocketEvent.StopAcceptingClients();
 }
