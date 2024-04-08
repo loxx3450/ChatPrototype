@@ -4,6 +4,10 @@ server.Start();
 
 while(true)
 {
-    if (Console.ReadLine() == "stop")
+    if (Console.ReadKey().Key == ConsoleKey.Escape)
+    {
         server.SocketEvent.StopAcceptingClients();
+
+        break;
+    }
 }

@@ -7,6 +7,7 @@ namespace Server
 {
     public class Server
     {
+        //ServerSocket generates simple Sockets that are a Server-Side
         public ServerSocketEvent SocketEvent { get; set; }
 
         public List<Client> Clients { get; set; }

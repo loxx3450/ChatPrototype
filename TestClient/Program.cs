@@ -41,4 +41,7 @@ void SetupSocket(SocketEvent socket)
 
     //2. Setting callbacks
     //...
+
+    //3. Setting callbacks to the events
+    //...
 }

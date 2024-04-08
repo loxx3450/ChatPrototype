@@ -16,7 +16,9 @@ namespace Server
 {
     public class Client
     {
+        //Has a connected to Client NetStream 
         public SocketEvent SocketEvent { get; set; }
+
 
         public Client(SocketEvent socketEvent)
         {
