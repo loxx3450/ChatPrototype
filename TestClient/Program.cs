@@ -34,6 +34,7 @@ while (true)
     client.Emit(messageToServer);
 }
 
+
 void SetupSocket(SocketEvent socket)
 {
     //1. Setting supported SocketEventMessages's Types for income
