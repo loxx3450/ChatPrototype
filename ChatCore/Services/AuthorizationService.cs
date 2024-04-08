@@ -1,12 +1,14 @@
-﻿using ProtocolLibrary.Core;
-using ProtocolLibrary.PayloadTypes;
+﻿using ChatCore.PayloadTypes;
+using ProtocolLibrary.Core;
+using ProtocolLibrary.Payload;
+using ProtocolLibrary.Message;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProtocolLibrary.Services
+namespace ChatCore.Services
 {
     public class AuthorizationService : IService
     {

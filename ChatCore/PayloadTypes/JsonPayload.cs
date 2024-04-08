@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ProtocolLibrary.Payload;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace ProtocolLibrary.PayloadTypes
+namespace ChatCore.PayloadTypes
 {
     public abstract class JsonPayload : IPayload
     {

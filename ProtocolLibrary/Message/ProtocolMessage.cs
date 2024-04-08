@@ -1,7 +1,7 @@
 ﻿using ProtocolLibrary.Core;
-using ProtocolLibrary.PayloadTypes;
+using ProtocolLibrary.Payload;
 
-namespace ProtocolLibrary
+namespace ProtocolLibrary.Message
 {
     public class ProtocolMessage
     {

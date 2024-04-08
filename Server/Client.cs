@@ -6,11 +6,11 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using EventSocket;
+using SocketEventLibrary;
 using ProtocolLibrary;
 using ProtocolLibrary.Core;
-using ProtocolLibrary.PayloadTypes;
-using EventSocket.Sockets;
+using ProtocolLibrary.Payload;
+using SocketEventLibrary.Sockets;
 
 namespace Server
 {

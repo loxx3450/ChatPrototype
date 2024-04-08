@@ -1,16 +1,7 @@
-﻿using EventSocket.Sockets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using ProtocolLibrary.SocketEventMessages;
-using ProtocolLibrary.PayloadTypes;
-using ProtocolLibrary;
-using System.Text.Json;
-using ProtocolLibrary.Services;
+﻿using SocketEventLibrary.Sockets;
+using ChatCore.SocketEventMessages;
+using ChatCore.Services;
+using ProtocolLibrary.Message;
 
 namespace Server
 {

@@ -1,24 +1,21 @@
-﻿using EventSocket.SocketEventMessageCore;
-using ProtocolLibrary.Core;
+﻿using ProtocolLibrary.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SocketEventLibrary.SocketEventMessageCore;
+using ProtocolLibrary.Message;
 
-namespace ProtocolLibrary.SocketEventMessages
+namespace ChatCore.SocketEventMessages
 {
-    public class SocketEventProtocolMessage : SocketEventMessage
+    public class SocketEventProtocolMessage : SocketEventMessage, IRecoverable
     {
         public SocketEventProtocolMessage(string key, ProtocolMessage argument) 
             : base(key, argument)
         { }
 
-        public SocketEventProtocolMessage(MemoryStream stream) 
-            : base(stream)
-        { }
-
-        public override MemoryStream GetPayloadStream()
+        public override MemoryStream GetDataStream()
         {
             MemoryStream memoryStream = new MemoryStream(); 
 
@@ -28,7 +25,7 @@ namespace ProtocolLibrary.SocketEventMessages
             writer.Flush();
 
             //Writing ProtocolMessage as an argument
-            ProtocolMessage message = (ProtocolMessage)Argument;
+            ProtocolMessage message = (ProtocolMessage)Payload;
             message.GetStream().CopyTo(memoryStream);
 
             memoryStream.Position = 0;
@@ -36,12 +33,12 @@ namespace ProtocolLibrary.SocketEventMessages
             return memoryStream;
         }
 
-        protected override SocketEventMessage ExtractSocketEventMessage(MemoryStream memoryStream)
+        public static SocketEventMessage RecoverSocketEventMessage(MemoryStream memoryStream)
         {
             int pos = (int)memoryStream.Position;
 
             //Reading Key
-            using StreamReader reader = new StreamReader(memoryStream, leaveOpen:true);
+            using StreamReader reader = new StreamReader(memoryStream, leaveOpen: true);
             string key = reader.ReadLine() ?? throw new Exception();
 
             //TEMP

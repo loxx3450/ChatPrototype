@@ -1,10 +1,11 @@
-﻿using EventSocket;
-using EventSocket.Sockets;
-using ProtocolLibrary;
-using ProtocolLibrary.PayloadTypes;
-using ProtocolLibrary.SocketEventMessages;
+﻿using SocketEventLibrary;
+using SocketEventLibrary.Sockets;
+using ProtocolLibrary.Payload;
+using ChatCore.SocketEventMessages;
 using System.Net.Sockets;
 using System.Text.Json;
+using ChatCore.PayloadTypes;
+using ProtocolLibrary.Message;
 
 const string hostname = "127.0.0.1";
 const int port = 8080;

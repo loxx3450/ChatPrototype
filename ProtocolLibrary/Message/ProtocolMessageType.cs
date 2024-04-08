@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProtocolLibrary.Services
+namespace ProtocolLibrary.Message
 {
-    public interface IService
+    public enum ProtocolMessageType
     {
-        public void Handle(ProtocolMessage message);
+        AuthRequest,
+        InfoFromServer,
+        None,
     }
 }

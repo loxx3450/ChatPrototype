@@ -1,4 +1,4 @@
-﻿using ProtocolLibrary.PayloadTypes;
+﻿using ProtocolLibrary.Payload;
 using System;
 using System.Collections.Generic;
 using System.Linq;
