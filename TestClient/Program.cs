@@ -25,7 +25,7 @@ message.SetHeader("testHeader", "testValue");
 
 message.SetPayload(new AuthRequestPayload("vasia", "123123123"));
 
-SocketEventProtocolMessage messageToServer = new SocketEventProtocolMessage("AuthRequest", message);
+SocketEventProtocolMessage messageToServer = new SocketEventProtocolMessage(ProtocolMessageType.AuthRequest, message);
 
 
 while (true)

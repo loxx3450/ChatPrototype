@@ -11,7 +11,7 @@ namespace ChatCore.SocketEventMessages
 {
     public class SocketEventProtocolMessage : SocketEventMessage, IRecoverable
     {
-        public SocketEventProtocolMessage(string key, ProtocolMessage argument) 
+        public SocketEventProtocolMessage(ProtocolMessageType key, ProtocolMessage argument) 
             : base(key, argument)
         { }
 
@@ -39,10 +39,12 @@ namespace ChatCore.SocketEventMessages
 
             //Reading Key
             using StreamReader reader = new StreamReader(memoryStream, leaveOpen: true);
-            string key = reader.ReadLine() ?? throw new Exception();
+            string keyLine = reader.ReadLine() ?? throw new Exception();
+
+            ProtocolMessageType key = (ProtocolMessageType)Enum.Parse(typeof(ProtocolMessageType), keyLine);
 
             //TEMP
-            memoryStream.Position = pos + key.Length + 2;
+            memoryStream.Position = pos + keyLine.Length + 2;
 
             //Getting ProtocolMessage from Stream
             ProtocolMessage argument = StreamExtractor.ExtractAll(memoryStream);

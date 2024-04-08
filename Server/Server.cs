@@ -31,7 +31,7 @@ namespace Server
             socket.AddSupportedMessageType<SocketEventProtocolMessage>();
 
             //2. Setting callbacks
-            socket.On("AuthRequest", mes =>
+            socket.On(ProtocolMessageType.AuthRequest, mes =>
             {
                 ProtocolMessage message = (ProtocolMessage)mes;
 
