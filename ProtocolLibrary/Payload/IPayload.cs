@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProtocolLibrary.Payload
 {
+    //Every Payload can be presented as Stream and built based on Stream, and provides string-implementation of his type
     public interface IPayload
     {
         public MemoryStream GetStream();

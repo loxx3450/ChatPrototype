@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProtocolLibrary.Core
 {
+    //The only task is to get MemoryStream from ProtocolMessage
     public static class ProtocolMessageStreamBuilder
     {
         public static MemoryStream GetStream(ProtocolMessage message)
@@ -36,6 +37,8 @@ namespace ProtocolLibrary.Core
             return memStream;
         }
 
+
+        //Writing identificator and all headers of Message
         private static void WriteMainInfo(ProtocolMessage message, StreamWriter writer)
         {
             writer.WriteLine(message.MessageType.ToString());
@@ -49,6 +52,8 @@ namespace ProtocolLibrary.Core
             writer.Flush();
         }
 
+
+        //PayloadStream is possibly null
         private static void WritePayloadIfExists(ProtocolMessage message, MemoryStream stream)
         {
             if (message.PayloadStream is null)

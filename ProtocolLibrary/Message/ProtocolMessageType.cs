@@ -9,7 +9,6 @@ namespace ProtocolLibrary.Message
     public enum ProtocolMessageType
     {
         AuthRequest,
-        InfoFromServer,
         None,
     }
 }

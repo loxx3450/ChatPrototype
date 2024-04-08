@@ -8,13 +8,14 @@ using ProtocolLibrary.Message;
 
 namespace ProtocolLibrary.Core
 {
+    //The only task is to get ProtocolMessage from MemoryStream
     public static class StreamExtractor
     {
         public static ProtocolMessage ExtractAll(MemoryStream memStream)
         {
             ProtocolMessage protocolMessage = new ProtocolMessage();
 
-            using (StreamReader reader = new StreamReader(memStream))
+            using (StreamReader reader = new StreamReader(memStream, leaveOpen:true))
             {
                 ExtractMessageType(protocolMessage, reader);
 
@@ -26,6 +27,8 @@ namespace ProtocolLibrary.Core
             return protocolMessage;
         }
 
+
+        //Extracting Identificator
         private static void ExtractMessageType(ProtocolMessage message, StreamReader reader)
         {
             string? messageType = reader.ReadLine();
@@ -41,6 +44,8 @@ namespace ProtocolLibrary.Core
             }
         }
 
+
+        //Extracting Headers
         private static void ExtractHeaders(ProtocolMessage message, StreamReader reader)
         {
             string? header;
@@ -56,10 +61,13 @@ namespace ProtocolLibrary.Core
             }
         }
 
+
+        //Extracting Payload
         private static void ExtractPayload(ProtocolMessage message, MemoryStream memStream)
         {
             int payloadLength = message.PayloadLength;
 
+            //Position right before Payload
             memStream.Position = memStream.Length - payloadLength;
 
             MemoryStream payloadStream = new MemoryStream(payloadLength);
