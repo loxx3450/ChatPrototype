@@ -17,31 +17,12 @@ namespace ProtocolLibrary.Core
 
             using (StreamReader reader = new StreamReader(memStream, leaveOpen:true))
             {
-                ExtractMessageType(protocolMessage, reader);
-
                 ExtractHeaders(protocolMessage, reader);
 
                 ExtractPayload(protocolMessage, memStream);
             }
 
             return protocolMessage;
-        }
-
-
-        //Extracting Identificator
-        private static void ExtractMessageType(ProtocolMessage message, StreamReader reader)
-        {
-            string? messageType = reader.ReadLine();
-
-            switch (messageType)
-            {
-                case "AuthRequest":
-                    message.MessageType = ProtocolMessageType.AuthRequest;
-                    break;
-                default:
-                    message.MessageType = ProtocolMessageType.None;
-                    break;
-            }
         }
 
 
@@ -63,6 +44,8 @@ namespace ProtocolLibrary.Core
 
 
         //Extracting Payload
+        //Info about Payload will be saved as a Stream
+        //and should be converted then
         private static void ExtractPayload(ProtocolMessage message, MemoryStream memStream)
         {
             int payloadLength = message.PayloadLength;

@@ -10,11 +10,6 @@ namespace ProtocolLibrary.Message
         private const string HEADER_PAYLOAD_LEN = "p_len";
         private const string HEADER_PAYLOAD_TYPE = "p_type";
 
-
-        //Identificator of Message
-        public ProtocolMessageType MessageType { get; set; }
-
-
         //Headers of Message
         public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
 

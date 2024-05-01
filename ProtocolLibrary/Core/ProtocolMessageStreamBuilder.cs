@@ -14,35 +14,25 @@ namespace ProtocolLibrary.Core
     {
         public static MemoryStream GetStream(ProtocolMessage message)
         {
-            //Inserting first 4 bytes for the future message size
             MemoryStream memStream = new MemoryStream();
-            memStream.Write(new byte[4], 0, 4);
 
-            //Writing all parts of message
-            using (StreamWriter writer = new StreamWriter(memStream, leaveOpen:true))
-                WriteMainInfo(message, writer);
+            //Writes headers
+            using StreamWriter writer = new StreamWriter(memStream, leaveOpen: true);
+            WriteHeaders(message, writer);
 
+            //The rest is Stream(optional)
             WritePayloadIfExists(message, memStream);
 
-            memStream.Position = 0;
-
-            //Inserting message size
-            int messageSize = (int)memStream.Length - 4;
-
-            memStream.Write(ConvertIntToBytes(messageSize), 0, 4);
-
-            //Returning finished stream
+            //Stream should be able for work
             memStream.Position = 0;
 
             return memStream;
         }
 
 
-        //Writing identificator and all headers of Message
-        private static void WriteMainInfo(ProtocolMessage message, StreamWriter writer)
+        //Writing all headers of Message
+        private static void WriteHeaders(ProtocolMessage message, StreamWriter writer)
         {
-            writer.WriteLine(message.MessageType.ToString());
-
             foreach (var header in message.Headers)
                 writer.WriteLine($"{header.Key}:{header.Value}");
 
@@ -63,16 +53,6 @@ namespace ProtocolLibrary.Core
             message.PayloadStream.CopyTo(stream);
 
             message.PayloadStream.Position = 0;
-        }
-
-        private static byte[] ConvertIntToBytes(int val)
-        {
-            byte[] bytes = BitConverter.GetBytes(val);
-
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(bytes);
-
-            return bytes;
         }
     }
 }

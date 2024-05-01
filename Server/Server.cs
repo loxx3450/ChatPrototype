@@ -32,14 +32,14 @@ namespace Server
             socket.AddSupportedMessageType<SocketEventProtocolMessage>();
 
             //2. Setting callbacks
-            socket.On(ProtocolMessageType.AuthRequest, mes =>
-            {
-                ProtocolMessage message = (ProtocolMessage)mes;
+            //socket.On(ProtocolMessageType.AuthRequest, mes =>
+            //{
+            //    ProtocolMessage message = (ProtocolMessage)mes;
 
-                AuthorizationService authService = new AuthorizationService();
+            //    AuthorizationService authService = new AuthorizationService();
 
-                authService.Handle(message);
-            });
+            //    authService.Handle(message);
+            //});
 
             //3. Setting callbacks to events
             //....
