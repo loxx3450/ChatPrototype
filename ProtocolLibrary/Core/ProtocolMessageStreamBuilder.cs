@@ -9,9 +9,16 @@ using System.Threading.Tasks;
 
 namespace ProtocolLibrary.Core
 {
-    //The only task is to get MemoryStream from ProtocolMessage
+    /// <summary>
+    /// Static class <c>ProtocolMessageStreamBuilder</c> provides logic of 
+    /// transforming ProtocolMessage into MemoryStream.
+    /// </summary>
     public static class ProtocolMessageStreamBuilder
     {
+        /// <summary>
+        /// This method creates MemoryStream basing on <paramref name="message"/>.
+        /// </summary>
+        /// <returns>MemoryStream-implementation of <paramref name="message"/>.</returns>
         public static MemoryStream GetStream(ProtocolMessage message)
         {
             MemoryStream memStream = new MemoryStream();

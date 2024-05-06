@@ -8,25 +8,33 @@ using ProtocolLibrary.Message;
 
 namespace ProtocolLibrary.Core
 {
-    //The only task is to get ProtocolMessage from MemoryStream
+    /// <summary>
+    /// Static class <c>ProtocolMessageStreamBuilder</c> provides logic of 
+    /// transforming MemoryStream into ProtocolMessage.
+    /// </summary>
     public static class StreamExtractor
     {
+        /// <summary>
+        /// This method creates ProtocolMessage basing on <paramref name="memStream"/>.
+        /// The result will contain only PayloadStream, not already interpetated IPayload object.
+        /// </summary>
+        /// <returns>The ProtocolMessage that was built by <paramref name="memStream"/>.</returns>
         public static ProtocolMessage ExtractAll(MemoryStream memStream)
         {
             ProtocolMessage protocolMessage = new ProtocolMessage();
 
-            using (StreamReader reader = new StreamReader(memStream, leaveOpen:true))
-            {
-                ExtractHeaders(protocolMessage, reader);
+            using StreamReader reader = new StreamReader(memStream, leaveOpen: true);
 
-                ExtractPayload(protocolMessage, memStream);
-            }
+            ExtractHeaders(protocolMessage, reader);
+
+            //Simply copies the rest of memStream to PayloadStream
+            ExtractPayload(protocolMessage, memStream);
 
             return protocolMessage;
         }
 
 
-        //Extracting Headers
+        //Extracts Headers
         private static void ExtractHeaders(ProtocolMessage message, StreamReader reader)
         {
             string? header;
@@ -43,7 +51,7 @@ namespace ProtocolLibrary.Core
         }
 
 
-        //Extracting Payload
+        //Extracts Payload
         //Info about Payload will be saved as a Stream
         //and should be converted then
         private static void ExtractPayload(ProtocolMessage message, MemoryStream memStream)

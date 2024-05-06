@@ -3,6 +3,10 @@ using ProtocolLibrary.Payload;
 
 namespace ProtocolLibrary.Message
 {
+    /// <summary>
+    /// Class <c>ProtocolMessage</c> models a message with headers and payload(optional), 
+    /// that could be represented as MemoryStream.
+    /// </summary>
     public class ProtocolMessage
     {
         //Service info
@@ -10,17 +14,35 @@ namespace ProtocolLibrary.Message
         private const string HEADER_PAYLOAD_LEN = "p_len";
         private const string HEADER_PAYLOAD_TYPE = "p_type";
 
-        //Headers of Message
-        public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
+
+        //
+        // ========== public properties: ==========
+        //
+
+        /// <summary>
+        /// Headers of message as a key-value-pair.
+        /// </summary>
+        public Dictionary<string, string> Headers { get; set; } = [];
 
 
-        //Payload of Message
+        /// <summary>
+        /// Stream of the Payload. Could be null if 
+        /// message doesn't contain payload till now.
+        /// </summary>
         public MemoryStream? PayloadStream { get; set; }
 
-        //Can be recoreved by Stream
+
+        /// <summary>
+        /// Payload of Message. Could be recovered by PayloadStream.
+        /// Could be <c>null</c>.
+        /// </summary>
         public IPayload? Payload { get; set; }
 
 
+        /// <summary>
+        /// Tries to get length from headers. 
+        /// In case of success, returns this as int. Otherwise, returns 0;
+        /// </summary>
         public int PayloadLength
         {
             get
@@ -33,6 +55,10 @@ namespace ProtocolLibrary.Message
         }
 
 
+        /// <summary>
+        /// Tries to get payload's type from headers. 
+        /// In case of success, returns this as string. Otherwise, returns null;
+        /// </summary>
         public string? PayloadType
         {
             get
@@ -45,7 +71,14 @@ namespace ProtocolLibrary.Message
         }
 
 
-        //Setting basic Headers for Payload
+        //
+        // ========== public methods: ==========
+        //
+
+        /// <summary>
+        /// This method sets the Payload of the Message, creates Payload's stream 
+        /// and writes some default headers
+        /// </summary>
         public void SetPayload(IPayload payload)
         {
             Payload = payload;
@@ -57,12 +90,19 @@ namespace ProtocolLibrary.Message
         }
 
 
+        /// <summary>
+        /// This method writes header basing on key and value.
+        /// </summary>
         public void SetHeader(string key, string value)
         {
             Headers[key] = value;
         }
 
 
+        /// <summary>
+        /// This method writes header basing on the whole header line.
+        /// Trimmes the line as well.
+        /// </summary>
         public void SetHeader(string headerLine)
         {
             string[] strings = headerLine.Split(HEADER_LINE_SEPARATOR, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
@@ -71,7 +111,10 @@ namespace ProtocolLibrary.Message
         }
 
 
-        //Stream of the whole Message
+        /// <summary>
+        /// This methods returns Stream of the whole Message including headers and payload.
+        /// </summary>
+        /// <returns>Stream of the Message.</returns>
         public MemoryStream GetStream()
         {
             return ProtocolMessageStreamBuilder.GetStream(this);
