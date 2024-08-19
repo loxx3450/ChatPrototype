@@ -23,15 +23,6 @@ namespace ProtocolLibrary.Payload
 
 
         /// <summary>
-        /// This method returns the string-implementation of the Payload's type.
-        /// </summary>
-        /// <returns>
-        /// The Payload's type as string.
-        /// </returns>
-        public string GetPayloadType();
-
-
-        /// <summary>
         /// This static method provides the logic of building Payload 
         /// by having corresponding MemoryStream.
         /// </summary>

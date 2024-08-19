@@ -12,7 +12,6 @@ namespace ProtocolLibrary.Message
         //Service info
         private const char HEADER_LINE_SEPARATOR = ':';
         private const string HEADER_PAYLOAD_LEN = "p_len";
-        private const string HEADER_PAYLOAD_TYPE = "p_type";
 
 
         //
@@ -55,22 +54,6 @@ namespace ProtocolLibrary.Message
         }
 
 
-        /// <summary>
-        /// Tries to get payload's type from headers. 
-        /// In case of success, returns this as string. Otherwise, returns null;
-        /// </summary>
-        public string? PayloadType
-        {
-            get
-            {
-                if (Headers.TryGetValue(HEADER_PAYLOAD_TYPE, out string? value))
-                    return value;
-
-                return null;
-            }
-        }
-
-
         //
         // ========== public methods: ==========
         //
@@ -86,7 +69,6 @@ namespace ProtocolLibrary.Message
             PayloadStream = payload.GetStream();
 
             Headers[HEADER_PAYLOAD_LEN] = PayloadStream.Length.ToString();
-            Headers[HEADER_PAYLOAD_TYPE] = Payload.GetPayloadType();
         }
 
 
